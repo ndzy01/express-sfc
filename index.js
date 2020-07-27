@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const interfaces = require('os').networkInterfaces(); //服务器本机地址
-const isDev = false;
+const config = require('./config');
 let IPAdress = '';
 for (const devName in interfaces) {
   const iface = interfaces[devName];
@@ -62,7 +62,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(8080, async () => {
-  if (isDev) {
+  if (!config.isDev) {
     console.log(`http://${IPAdress}:8080`);
   } else {
     await open(`http://${IPAdress}:8080`);
