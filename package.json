@@ -2,9 +2,10 @@
   "name": "express-demo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "sls.js",
   "scripts": {
-    "start": "node .",
+    "start": "node ./sls.js",
+    "sls": "serverless",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "yugasun",

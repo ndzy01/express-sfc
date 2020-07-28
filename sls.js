@@ -3,7 +3,8 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const interfaces = require('os').networkInterfaces(); //服务器本机地址
-const config = require('./config');
+const db = require('./db');
+const utils = require('./utils');
 let IPAdress = '';
 for (const devName in interfaces) {
   const iface = interfaces[devName];
@@ -41,6 +42,24 @@ app.get('/user/:id', (req, res) => {
     link: 'https://serverless.com'
   });
 });
+app.get('/test1', (req, res) => {
+  const sqlSave = `
+  INSERT INTO test
+        (
+          test.id
+        )
+        VALUES
+          (
+            '${utils.randomCode(30)}'
+          )
+  `;
+  db(sqlSave, []).then((res) => {
+    console.log('111');
+  });
+  res.send({
+    data: 'test'
+  });
+});
 app.get('/test', (req, res) => {
   res.send({
     data: 'test'
@@ -61,11 +80,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Internal Serverless Error');
 });
 
-app.listen(8080, async () => {
-  if (!config.isDev) {
-    console.log(`http://${IPAdress}:8080`);
-  } else {
-    await open(`http://${IPAdress}:8080`);
-  }
+app.listen(8080, () => {
+  console.log(`http://${IPAdress}:8080`);
 });
 module.exports = app;
